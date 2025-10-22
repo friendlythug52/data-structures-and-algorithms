@@ -1,0 +1,100 @@
+import java.util.*;
+
+public class Graph {
+    private Map<String, Map<String, Integer>> adjList;
+    
+    public Graph() {
+        adjList = new HashMap<>();
+    }
+    
+    public void addEdge(String u, String v, int weight) {
+        adjList.putIfAbsent(u, new HashMap<>());
+        adjList.putIfAbsent(v, new HashMap<>());
+        adjList.get(u).put(v, weight);
+        adjList.get(v).put(u, weight); // Для неориентированного графа
+    }
+    
+    public List<String> bfs(String start) {
+        List<String> result = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        
+        visited.add(start);
+        queue.offer(start);
+        
+        while (!queue.isEmpty()) {
+            String vertex = queue.poll();
+            result.add(vertex);
+            
+            Map<String, Integer> neighbors = adjList.get(vertex);
+            if (neighbors != null) {
+                for (String neighbor : neighbors.keySet()) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public List<String> dfs(String start) {
+        List<String> result = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        Stack<String> stack = new Stack<>();
+        
+        stack.push(start);
+        
+        while (!stack.isEmpty()) {
+            String vertex = stack.pop();
+            
+            if (!visited.contains(vertex)) {
+                visited.add(vertex);
+                result.add(vertex);
+                
+                Map<String, Integer> neighbors = adjList.get(vertex);
+                if (neighbors != null) {
+                    for (String neighbor : neighbors.keySet()) {
+                        if (!visited.contains(neighbor)) {
+                            stack.push(neighbor);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public void printEdges() {
+        System.out.println("Рёбра графа:");
+        for (String u : adjList.keySet()) {
+            Map<String, Integer> neighbors = adjList.get(u);
+            for (String v : neighbors.keySet()) {
+                if (u.compareTo(v) < 0) { // Чтобы избежать дублирования
+                    System.out.println(u + " - " + v + " (вес: " + neighbors.get(v) + ")");
+                }
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        
+        // Добавление рёбер
+        graph.addEdge("A", "B", 4);
+        graph.addEdge("A", "C", 2);
+        graph.addEdge("B", "D", 5);
+        graph.addEdge("C", "D", 8);
+        graph.addEdge("C", "E", 3);
+        graph.addEdge("D", "E", 1);
+        graph.addEdge("D", "F", 6);
+        graph.addEdge("E", "F", 4);
+        
+        System.out.println("BFS обход от A: " + graph.bfs("A"));
+        System.out.println("DFS обход от A: " + graph.dfs("A"));
+        graph.printEdges();
+    }
+}
