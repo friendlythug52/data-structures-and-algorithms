@@ -1,0 +1,150 @@
+import java.util.*;
+
+public class Dijkstra {
+    private Map<String, Map<String, Integer>> graph;
+    
+    public Dijkstra(Map<String, Map<String, Integer>> graph) {
+        this.graph = graph;
+    }
+    
+    public static class Result {
+        public int distance;
+        public List<String> path;
+        
+        public Result(int distance, List<String> path) {
+            this.distance = distance;
+            this.path = path;
+        }
+    }
+    
+    public Result shortestPath(String start, String end) {
+        // Инициализация расстояний
+        Map<String, Integer> distances = new HashMap<>();
+        for (String node : graph.keySet()) {
+            distances.put(node, Integer.MAX_VALUE);
+        }
+        distances.put(start, 0);
+        
+        // Приоритетная очередь
+        PriorityQueue<NodeDistance> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(new NodeDistance(start, 0));
+        
+        // Для восстановления пути
+        Map<String, String> previous = new HashMap<>();
+        
+        while (!priorityQueue.isEmpty()) {
+            NodeDistance current = priorityQueue.poll();
+            String currentNode = current.node;
+            int currentDistance = current.distance;
+            
+            // Если достигли конечной вершины
+            if (currentNode.equals(end)) {
+                break;
+            }
+            
+            // Если текущее расстояние больше сохраненного, пропускаем
+            if (currentDistance > distances.get(currentNode)) {
+                continue;
+            }
+            
+            // Обновляем расстояния до соседей
+            Map<String, Integer> neighbors = graph.get(currentNode);
+            if (neighbors != null) {
+                for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
+                    int distance = currentDistance + neighbor.getValue();
+                    
+                    if (distance < distances.get(neighbor.getKey())) {
+                        distances.put(neighbor.getKey(), distance);
+                        previous.put(neighbor.getKey(), currentNode);
+                        priorityQueue.offer(new NodeDistance(neighbor.getKey(), distance));
+                    }
+                }
+            }
+        }
+        
+        // Восстанавливаем путь
+        List<String> path = new ArrayList<>();
+        String current = end;
+        
+        while (previous.containsKey(current)) {
+            path.add(current);
+            current = previous.get(current);
+        }
+        path.add(start);
+        Collections.reverse(path);
+        
+        return new Result(distances.get(end), path);
+    }
+    
+    private static class NodeDistance implements Comparable<NodeDistance> {
+        String node;
+        int distance;
+        
+        NodeDistance(String node, int distance) {
+            this.node = node;
+            this.distance = distance;
+        }
+        
+        @Override
+        public int compareTo(NodeDistance other) {
+            return Integer.compare(this.distance, other.distance);
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Граф в виде словаря смежности
+        Map<String, Map<String, Integer>> graph = new HashMap<>();
+        
+        Map<String, Integer> aNeighbors = new HashMap<>();
+        aNeighbors.put("B", 4);
+        aNeighbors.put("C", 2);
+        graph.put("A", aNeighbors);
+        
+        Map<String, Integer> bNeighbors = new HashMap<>();
+        bNeighbors.put("A", 4);
+        bNeighbors.put("D", 5);
+        bNeighbors.put("E", 8);
+        graph.put("B", bNeighbors);
+        
+        Map<String, Integer> cNeighbors = new HashMap<>();
+        cNeighbors.put("A", 2);
+        cNeighbors.put("D", 8);
+        cNeighbors.put("E", 3);
+        graph.put("C", cNeighbors);
+        
+        Map<String, Integer> dNeighbors = new HashMap<>();
+        dNeighbors.put("B", 5);
+        dNeighbors.put("C", 8);
+        dNeighbors.put("E", 1);
+        dNeighbors.put("F", 6);
+        graph.put("D", dNeighbors);
+        
+        Map<String, Integer> eNeighbors = new HashMap<>();
+        eNeighbors.put("B", 8);
+        eNeighbors.put("C", 3);
+        eNeighbors.put("D", 1);
+        eNeighbors.put("F", 4);
+        graph.put("E", eNeighbors);
+        
+        Map<String, Integer> fNeighbors = new HashMap<>();
+        fNeighbors.put("D", 6);
+        fNeighbors.put("E", 4);
+        graph.put("F", fNeighbors);
+        
+        Dijkstra dijkstra = new Dijkstra(graph);
+        
+        String start = "A";
+        String end = "F";
+        Result result = dijkstra.shortestPath(start, end);
+        
+        System.out.println("Кратчайшее расстояние от " + start + " до " + end + ": " + result.distance);
+        System.out.println("Путь: " + String.join(" -> ", result.path));
+        
+        // Все кратчайшие расстояния от A
+        System.out.println("\nВсе кратчайшие расстояния от A:");
+        for (String node : graph.keySet()) {
+            Result nodeResult = dijkstra.shortestPath(start, node);
+            System.out.println("До " + node + ": " + nodeResult.distance);
+        }
+    }
+}
