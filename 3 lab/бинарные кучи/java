@@ -1,0 +1,78 @@
+import java.util.*;
+
+public class BinaryHeap {
+    private List<Integer> heap;
+
+    public BinaryHeap() {
+        heap = new ArrayList<>();
+    }
+
+    public void push(int value) {
+        heap.add(value);
+        heapifyUp(heap.size() - 1);
+    }
+
+    public Integer pop() {
+        if (heap.isEmpty()) return null;
+        
+        int root = heap.get(0);
+        heap.set(0, heap.get(heap.size() - 1));
+        heap.remove(heap.size() - 1);
+        heapifyDown(0);
+        return root;
+    }
+
+    public Integer peek() {
+        return heap.isEmpty() ? null : heap.get(0);
+    }
+
+    public boolean isEmpty() {
+        return heap.isEmpty();
+    }
+
+    public int size() {
+        return heap.size();
+    }
+
+    private void heapifyUp(int index) {
+        while (index > 0 && heap.get(parent(index)) > heap.get(index)) {
+            Collections.swap(heap, parent(index), index);
+            index = parent(index);
+        }
+    }
+
+    private void heapifyDown(int index) {
+        int smallest = index;
+        int left = leftChild(index);
+        int right = rightChild(index);
+
+        if (left < heap.size() && heap.get(left) < heap.get(smallest))
+            smallest = left;
+        if (right < heap.size() && heap.get(right) < heap.get(smallest))
+            smallest = right;
+
+        if (smallest != index) {
+            Collections.swap(heap, index, smallest);
+            heapifyDown(smallest);
+        }
+    }
+
+    private int parent(int i) { return (i - 1) / 2; }
+    private int leftChild(int i) { return 2 * i + 1; }
+    private int rightChild(int i) { return 2 * i + 2; }
+
+    public static void main(String[] args) {
+        BinaryHeap heap = new BinaryHeap();
+        int[] data = {8, 3, 5, 1, 6, 2, 4, 7};
+
+        System.out.println("Бинарная куча (Java):");
+        for (int num : data) {
+            heap.push(num);
+        }
+
+        while (!heap.isEmpty()) {
+            System.out.print(heap.pop() + " ");
+        }
+        System.out.println();
+    }
+}
