@@ -1,0 +1,17 @@
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> stack;
+    stack.push_back("a");
+    stack.push_back("b");
+    stack.push_back("c");
+    
+    // Вывод содержимого вектора
+    for(const auto& item : stack) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+    
+    return 0;
+}
