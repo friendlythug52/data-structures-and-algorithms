@@ -1,4 +1,4 @@
-stack =
+stack =[]
 stack.append('a')
 stack.append('b')
 stack.append('c')
@@ -16,6 +16,6 @@ class Stack:
       self.top = new_node
     def pop(self):
       if not self.is_empty():
-      popped = self.top
-      self.top = self.top.next
-      popped.next = None
+        popped = self.top
+        self.top = self.top.next
+        popped.next = None
