@@ -5,7 +5,7 @@
 Алгоритм: имитация отжига: случайное смещение центров, принятие решения по критерию 
 Метрополиса.
 
-***Язык примера: C++**
+**Язык примера: C++**
 
 vector<pair<double, double>> sa_facility_location(
  const vector<pair<double, double>>& clients,
