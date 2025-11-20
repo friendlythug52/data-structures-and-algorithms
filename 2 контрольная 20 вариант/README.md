@@ -11,7 +11,9 @@ vector<pair<double, double>> sa_facility_location(
  const vector<pair<double, double>>& clients,
  int k, double temp, double cooling
 ) {
+
  // Инициализация: случайные позиции k центров
+ 
  vector<pair<double, double>> centers(k);
  for (int i = 0; i < k; i++) {
  centers[i] = {
