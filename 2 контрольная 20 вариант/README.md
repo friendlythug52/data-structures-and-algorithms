@@ -4,7 +4,9 @@
 расстояние от каждой из n точек‑клиентов до ближайшего центра.
 Алгоритм: имитация отжига: случайное смещение центров, принятие решения по критерию 
 Метрополиса.
-Язык примера: C++
+
+***Язык примера: C++**
+
 vector<pair<double, double>> sa_facility_location(
  const vector<pair<double, double>>& clients,
  int k, double temp, double cooling
@@ -25,6 +27,8 @@ vector<pair<double, double>> sa_facility_location(
  new_centers[idx].first += random_double(-1, 1) * temp;
  new_centers[idx].second += random_double(-1, 1) * temp;
  double new_cost = totalDistance(clients, new_centers);
+
+ 
  // ДОПИСАТЬ: принять/отклонить new_centers по критерию Метрополиса
  // Если принято, обновить centers и current_cost
  temp *= cooling;
