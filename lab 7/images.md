@@ -8,3 +8,8 @@
 Эпоха 10/15 | Train Loss: 0.1796, Train Acc: 0.9491 | Val Loss: 0.1878, Val Acc: 0.9458
 Эпоха 12/15 | Train Loss: 0.1608, Train Acc: 0.9540 | Val Loss: 0.1762, Val Acc: 0.9489
 Эпоха 14/15 | Train Loss: 0.1456, Train Acc: 0.9582 | Val Loss: 0.1651, Val Acc: 0.9503
+
+
+
+Точность на тестовых данных: 0.9551
+<img width="797" height="701" alt="image" src="https://github.com/user-attachments/assets/e62e4cd4-9adf-4f86-803e-5b684e2b7027" />
