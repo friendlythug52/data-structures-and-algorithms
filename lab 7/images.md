@@ -13,3 +13,13 @@
 
 **Точность на тестовых данных: 0.9551**
 <img width="797" height="701" alt="image" src="https://github.com/user-attachments/assets/e62e4cd4-9adf-4f86-803e-5b684e2b7027" />
+
+----
+
+<img width="1189" height="540" alt="Снимок экрана 2025-12-11 в 12 24 19" src="https://github.com/user-attachments/assets/0dec3808-4106-49f2-bcde-f6ea46a03d2b" />
+
+
+
+----
+
+<img width="1261" height="592" alt="Снимок экрана 2025-12-11 в 12 24 48" src="https://github.com/user-attachments/assets/39ee14df-005a-4f5b-a079-6645231b80a7" />
